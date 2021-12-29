@@ -1,0 +1,25 @@
+<div class="wrapper" [formGroup]="searchForm">
+  <div class="input__bearer">
+    <input type="text" formControlName="token" placeholder="Bearer token">
+  </div>
+  <div class="input__search">
+    <input
+      class="input__text-input"
+      formControlName="search"
+      placeholder="Start type to search something"
+      (blur)="showState = false"
+      (focus)="showState = true">
+    <div class="input__indicator" *ngIf="loadingState"></div>
+    <ng-container *ngIf="(data$ | async) as data">
+      <div id="results" class="result__list" *ngIf="showState" role="listbox">
+        <div class="result__item" *ngFor="let item of data" (click)="itemSelect(item)" role="listitem">
+          <div class="item__label">
+            {{ item.label }}
+            <span *ngIf="item.kind ==='property'">({{ item.data?.propertyOverview.code }})</span>
+          </div>
+          <div class="item__kind">{{ item.kind }}</div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
